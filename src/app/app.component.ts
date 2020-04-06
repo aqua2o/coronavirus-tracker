@@ -12,9 +12,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const url = 'https://jsonplaceholder.typicode.com/todos/1';
+    const url = 'https://api.covid19api.com/summary';
     this.ajaxService.getApiData(url).subscribe(response => {
       console.log('response', response);
-  });
+    });
   }
 }

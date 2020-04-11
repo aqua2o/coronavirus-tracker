@@ -1,11 +1,11 @@
 <p>countries-table works!</p>
 <div>
     <mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="NewConfirmed">
-            <mat-header-cell *matHeaderCellDef> NewConfirmed </mat-header-cell>
-            <mat-cell *matCellDef="let country">hello {{country.Global.NewConfirmed}}</mat-cell>
+        <ng-container matColumnDef="col1">
+            <mat-header-cell *matHeaderCellDef> col1 </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{country.Country}} </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 </div>

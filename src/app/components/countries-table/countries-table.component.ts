@@ -12,7 +12,7 @@ import { Country } from '../../models/country.model';
 export class CountriesTableComponent implements OnInit {
 
   dataSource = new CountryDataSource(this.countriesService);
-  displayedColumns = ['NewConfirmed'];
+  displayedColumns = ['col1'];
 
   constructor(private countriesService: CountriesService) {
   }
@@ -26,7 +26,7 @@ export class CountryDataSource extends DataSource<any> {
     super();
   }
 
-  connect(): Observable<Country[]> {
+  connect(): Observable<any[]> {
     return this.countriesService.getCountries();
   }
 

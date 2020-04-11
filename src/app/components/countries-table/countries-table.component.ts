@@ -13,6 +13,7 @@ export class CountriesTableComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns = ['Country', 'TotalConfirmed', 'NewConfirmed', 'NewRecovered', 'NewDeaths', 'TotalRecovered', 'TotalDeaths', 'LastUpdate'];
+  isLoading = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -26,7 +27,9 @@ export class CountriesTableComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.sort.sort(({ id: 'TotalConfirmed', start: 'desc'}) as MatSortable);
         this.dataSource.sort = this.sort;
-      }
+        this.isLoading = false;
+      },
+      error => this.isLoading = false
     );
   }
 }

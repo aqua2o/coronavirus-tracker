@@ -9,6 +9,7 @@ import { CountriesTableComponent } from './components/countries-table/countries-
 import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatProgressSpinnerModule } from '@angular/material';
 
 import { CountriesService } from './services/contries.service';
 
@@ -24,7 +25,8 @@ import { CountriesService } from './services/contries.service';
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
   providers: [CountriesService],
   bootstrap: [AppComponent]

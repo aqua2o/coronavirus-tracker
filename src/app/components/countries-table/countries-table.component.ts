@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CountriesService } from '../../services/contries.service';
-import { Observable } from 'rxjs';
-import { DataSource } from '@angular/cdk/collections';
-import { Country } from '../../models/country.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 

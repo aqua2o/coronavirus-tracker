@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Country } from '../models/country.model';
-import { map } from 'rxjs/operators';
+import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +15,22 @@ export class CountriesService {
     constructor(private httpClient: HttpClient) { }
 
     getCountries(): Observable<any> {
-        return this.httpClient.get<any>(this.serviceUrl);
+        return this.httpClient.get<any>(this.serviceUrl).pipe(
+            retry(3),
+            catchError(this.handleError)
+        );
+    }
+
+    handleError(error) {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+            // client-side error
+            errorMessage = `Client-side Error: ${error.error.message}`;
+        } else {
+            // server-side error
+            errorMessage = `Server-side Error Code: ${error.status}\nMessage: ${error.message}`;
+        }
+        console.log(errorMessage);
+        return throwError(errorMessage);
     }
 }

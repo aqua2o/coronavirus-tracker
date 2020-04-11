@@ -45,14 +45,12 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div [hidden]="isLoading">
-        <mat-paginator [length]="100"
-            [pageSize]="10"
-            [pageSizeOptions]="[10, 25, 50, 100]">
-        </mat-paginator>
-    </div>
+    <mat-paginator [length]="100"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50, 100]">
+    </mat-paginator>
 
-    <div [hidden]="!isLoading" class="loader">
+    <div *ngIf="isLoading" class="loader">
         <mat-progress-spinner color="primary" mode="indeterminate">
         </mat-progress-spinner>
     </div>

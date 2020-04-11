@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CountriesTableComponent } from './components/countries-table/countries-table.component';
 import { MatTableModule } from '@angular/material';
 import { CountriesService } from './services/contries.service';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +19,8 @@ import { CountriesService } from './services/contries.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [CountriesService],
   bootstrap: [AppComponent]

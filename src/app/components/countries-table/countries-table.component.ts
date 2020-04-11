@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CountriesService } from '../../services/contries.service';
 import { Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 import { Country } from '../../models/country.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-countries-table',
@@ -11,24 +13,19 @@ import { Country } from '../../models/country.model';
 })
 export class CountriesTableComponent implements OnInit {
 
-  dataSource = new CountryDataSource(this.countriesService);
+  dataSource = new MatTableDataSource<any>([]);
   displayedColumns = ['Country', 'TotalConfirmed', 'NewConfirmed', 'NewRecovered', 'NewDeaths', 'TotalRecovered', 'TotalDeaths', 'LastUpdate'];
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private countriesService: CountriesService) {
   }
 
   ngOnInit() {
+    this.countriesService.getCountries().subscribe((response) => {
+        this.dataSource = new MatTableDataSource(response.Countries);
+        this.dataSource.paginator = this.paginator;
+      }
+    );
   }
-}
-
-export class CountryDataSource extends DataSource<any> {
-  constructor(private countriesService: CountriesService) {
-    super();
-  }
-
-  connect(): Observable<Country[]> {
-    return this.countriesService.getCountries();
-  }
-
-  disconnect() {}
 }

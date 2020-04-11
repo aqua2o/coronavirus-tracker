@@ -15,8 +15,6 @@ export class CountriesService {
     constructor(private httpClient: HttpClient) { }
 
     getCountries(): Observable<any> {
-        return this.httpClient.get<any>(this.serviceUrl).pipe(
-            map(res => res.Countries)
-        );
+        return this.httpClient.get<any>(this.serviceUrl);
     }
 }

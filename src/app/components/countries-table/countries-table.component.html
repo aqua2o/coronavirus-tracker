@@ -7,37 +7,37 @@
         </ng-container>
 
         <ng-container matColumnDef="TotalConfirmed">
-            <mat-header-cell *matHeaderCellDef> TotalConfirmed </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Cases </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.TotalConfirmed }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="NewConfirmed">
-            <mat-header-cell *matHeaderCellDef> New Confirmed </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Confirmed </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.NewConfirmed }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="NewRecovered">
-            <mat-header-cell *matHeaderCellDef> New Recovered </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Recovered </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.NewRecovered }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="NewDeaths">
-            <mat-header-cell *matHeaderCellDef> New Deaths </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Deaths </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.NewDeaths }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="TotalRecovered">
-            <mat-header-cell *matHeaderCellDef> TotalRecovered </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Recovered </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.TotalRecovered }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="TotalDeaths">
-            <mat-header-cell *matHeaderCellDef> TotalDeaths </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Deaths </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.TotalDeaths }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="LastUpdate">
-            <mat-header-cell *matHeaderCellDef> Last Update </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </mat-header-cell>
             <mat-cell *matCellDef="let country"> {{ country.Date | date:'medium' }} </mat-cell>
         </ng-container>
 

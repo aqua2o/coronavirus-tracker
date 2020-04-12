@@ -3,7 +3,7 @@
 
         <ng-container matColumnDef="Country">
             <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
-            <mat-cell *matCellDef="let country"> <a href="{{country.Slug}}">{{ country.Country }}</a> </mat-cell>
+            <mat-cell *matCellDef="let country"> <a href="country/{{country.Slug}}">{{ country.Country }}</a> </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="TotalConfirmed">

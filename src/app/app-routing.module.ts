@@ -9,7 +9,7 @@ const routes: Routes = [
     component: CountriesTableComponent
   },
   {
-    path: 'country/:id',
+    path: 'country/:country',
     component: CountryPageComponent
   }
 ];

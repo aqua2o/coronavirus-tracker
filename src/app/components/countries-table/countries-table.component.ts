@@ -12,7 +12,14 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 export class CountriesTableComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>([]);
-  displayedColumns = ['Country', 'TotalConfirmed', 'NewConfirmed', 'NewRecovered', 'NewDeaths', 'TotalRecovered', 'TotalDeaths', 'LastUpdate'];
+  displayedColumns = ['Country',
+  'TotalConfirmed',
+  'NewConfirmed',
+  'NewRecovered',
+  'NewDeaths',
+  'TotalRecovered',
+  'TotalDeaths',
+  'LastUpdate'];
   isLoading = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

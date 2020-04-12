@@ -16,7 +16,7 @@ export class CountriesService {
 
     getCountries(): Observable<any> {
         return this.httpClient.get<any>(this.serviceUrl).pipe(
-            retry(3),
+            retry(0),
             catchError(this.handleError)
         );
     }

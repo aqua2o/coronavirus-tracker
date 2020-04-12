@@ -1,0 +1,57 @@
+<div>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Country">
+            <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
+            <mat-cell *matCellDef="let country"> <a href="{{country.Slug}}">{{ country.Country }}</a> </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TotalConfirmed">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Cases </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.TotalConfirmed }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="NewConfirmed">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Confirmed </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.NewConfirmed }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="NewRecovered">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Recovered </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.NewRecovered }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="NewDeaths">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> New Deaths </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.NewDeaths }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TotalRecovered">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Recovered </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.TotalRecovered }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TotalDeaths">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Total Deaths </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.TotalDeaths }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="LastUpdate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </mat-header-cell>
+            <mat-cell *matCellDef="let country"> {{ country.Date | date:'medium' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="100"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50, 100]">
+    </mat-paginator>
+
+    <div *ngIf="isLoading" class="loader">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+</div>

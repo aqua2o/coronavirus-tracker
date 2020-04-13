@@ -1,3 +1,11 @@
-<div *ngIf="chartActiveCases">
+<div *ngIf="chartConfirmedCases">
     <canvas id="confirmedCases">{{chart}}</canvas>
+</div>
+
+<div *ngIf="chartActiveCases">
+    <canvas id="activeCases">{{chart}}</canvas>
+</div>
+
+<div *ngIf="chartDailyCases">
+    <canvas id="dailyCases">{{chart}}</canvas>
 </div>

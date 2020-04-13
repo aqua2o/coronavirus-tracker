@@ -10,53 +10,59 @@ import { Chart } from 'chart.js';
 })
 export class CountryPageComponent implements OnInit {
 
-  chart = [];
+  chartActiveCases = [];
+  chartDailyNewCases = [];
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('country'));
     const country = this.route.snapshot.paramMap.get('country');
-    this.countryService.getCountryInfo(country).subscribe((response) => {
-      console.log('response country page', response);
-      const cases = response.map(res => res.Cases);
+
+    this.countryService.getCountryAllStatus(country).subscribe((response) => {
+      const confirmedCases = response.map(res => res.Confirmed);
+      const deathsCases = response.map(res => res.Deaths);
+      const recoveredCases = response.map(res => res.Recovered);
+      const activeCases = response.map(res => res.Active); // wrong api response, don't use, often 0
       const allDates = response.map(res => res.Date);
-      console.log('all dates', allDates);
 
       const countryDates = [];
       allDates.forEach(res => {
         const jsdate = new Date(res);
-        countryDates.push(jsdate.toLocaleTimeString('en', {year: 'numeric', month: 'short', day: 'numeric'}));
+        countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
       });
 
-      console.log('countryDates', countryDates);
+      this.buildTotalConfirmedCasesGraph(confirmedCases, countryDates);
+    });
+  }
 
-      this.chart = new Chart('canvas', {
-        type: 'line',
-        data: {
-          labels: countryDates,
-          datasets: [
-            {
-              data: cases,
-              borderColor: '#3cba9f',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              display: true
-            }],
-            yAxes: [{
-              display: true
-            }]
+  buildTotalConfirmedCasesGraph(cases, countryDates) {
+    this.chartActiveCases = new Chart('confirmedCases', {
+      type: 'bar',
+      data: {
+        labels: countryDates,
+        datasets: [
+          {
+            label: 'Total cases',
+            data: cases,
+            backgroundColor: '#ffcc00',
+            borderColor: '#ffcc00',
+            fill: false
           }
+        ]
+      },
+      options: {
+        legend: {
+          display: true
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true
+          }]
         }
-      });
+      }
     });
   }
 }

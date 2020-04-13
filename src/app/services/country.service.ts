@@ -8,16 +8,15 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class CountryService {
 
-
     constructor(private httpClient: HttpClient) { }
 
-    getCountryInfo(countrySlug): Observable<any> {
-        const serviceUrl = `https://api.covid19api.com/dayone/country/${countrySlug}/status/confirmed`;
-        return this.httpClient.get<any>(serviceUrl).pipe(
-            retry(0),
-            catchError(this.handleError)
-        );
-    }
+    getCountryAllStatus(countrySlug): Observable<any> {
+      const serviceUrl = `https://api.covid19api.com/dayone/country/${countrySlug}`;
+      return this.httpClient.get<any>(serviceUrl).pipe(
+          retry(0),
+          catchError(this.handleError)
+      );
+  }
 
     handleError(error) {
       let errorMessage = '';

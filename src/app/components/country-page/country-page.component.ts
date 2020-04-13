@@ -10,6 +10,8 @@ import { Chart } from 'chart.js';
 })
 export class CountryPageComponent implements OnInit {
 
+  chart = [];
+
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
 
   ngOnInit() {
@@ -17,18 +19,44 @@ export class CountryPageComponent implements OnInit {
     const country = this.route.snapshot.paramMap.get('country');
     this.countryService.getCountryInfo(country).subscribe((response) => {
       console.log('response country page', response);
-      let max = 9000;
-      let min = 0;
-      let allDates = response.map(res => res.Date);
+      const cases = response.map(res => res.Cases);
+      const allDates = response.map(res => res.Date);
       console.log('all dates', allDates);
 
-      let countryDates = [];
+      const countryDates = [];
       allDates.forEach(res => {
-        let jsdate = new Date(res);
+        const jsdate = new Date(res);
         countryDates.push(jsdate.toLocaleTimeString('en', {year: 'numeric', month: 'short', day: 'numeric'}));
       });
 
       console.log('countryDates', countryDates);
+
+      this.chart = new Chart('canvas', {
+        type: 'line',
+        data: {
+          labels: countryDates,
+          datasets: [
+            {
+              data: cases,
+              borderColor: '#3cba9f',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              display: true
+            }]
+          }
+        }
+      });
     });
   }
 }

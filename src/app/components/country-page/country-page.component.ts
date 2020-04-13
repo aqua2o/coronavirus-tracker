@@ -11,7 +11,7 @@ import { element } from 'protractor';
 })
 export class CountryPageComponent implements OnInit {
 
-  chartConfirmedAndActiveCases = [];
+  SummaryGraph = [];
   chartDailyCases = [];
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -39,13 +39,13 @@ export class CountryPageComponent implements OnInit {
         dailyNewCases.push(dailyCase >= 0 ? dailyCase : 0);
       }
 
-      this.buildTotalConfirmedAndActiveCasesGraph(confirmedCases, activeCases, countryDates);
+      this.buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates);
       this.buildnewDailyCasesGraph(dailyNewCases, countryDates);
     });
   }
 
-  buildTotalConfirmedAndActiveCasesGraph(confirmedCases, activeCases, countryDates) {
-    this.chartConfirmedAndActiveCases = new Chart('confirmedAndActiveCases', {
+  buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {
+    this.SummaryGraph = new Chart('SummaryGraph', {
       type: 'line',
       data: {
         labels: countryDates,
@@ -53,13 +53,27 @@ export class CountryPageComponent implements OnInit {
           {
             label: 'Total cases',
             data: confirmedCases,
-            backgroundColor: '#36a2eb',
-            borderColor: '#36a2eb',
+            backgroundColor: '#ffcc00',
+            borderColor: '#ffcc00',
             fill: false
           },
           {
             label: 'Active cases',
             data: activeCases,
+            backgroundColor: '#36a2eb',
+            borderColor: '#36a2eb',
+            fill: false
+          },
+          {
+            label: 'Recovered cases',
+            data: recoveredCases,
+            backgroundColor: '#4bc0c0',
+            borderColor: '#4bc0c0',
+            fill: false
+          },
+          {
+            label: 'Death cases',
+            data: deathsCases,
             backgroundColor: '#ff6384',
             borderColor: '#ff6384',
             fill: false

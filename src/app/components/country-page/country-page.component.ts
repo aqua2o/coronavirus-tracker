@@ -11,8 +11,7 @@ import { element } from 'protractor';
 })
 export class CountryPageComponent implements OnInit {
 
-  chartConfirmedCases = [];
-  chartActiveCases = [];
+  chartConfirmedAndActiveCases = [];
   chartDailyCases = [];
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -35,60 +34,34 @@ export class CountryPageComponent implements OnInit {
 
       const dailyNewCases = [];
       for (let index = 0; index < confirmedCases.length; index++) {
-        dailyNewCases.push(confirmedCases[index] - (confirmedCases[index - 1] || 0));
+        const dailyCase = confirmedCases[index] - (confirmedCases[index - 1] || 0);
+
+        dailyNewCases.push(dailyCase >= 0 ? dailyCase : 0);
       }
 
-      console.log('dailyNewCases', dailyNewCases);
-      console.log('countryDates', countryDates);
-
-      this.buildTotalConfirmedCasesGraph(confirmedCases, countryDates);
-      this.buildActiveCasesGraph(activeCases, countryDates);
+      this.buildTotalConfirmedAndActiveCasesGraph(confirmedCases, activeCases, countryDates);
       this.buildnewDailyCasesGraph(dailyNewCases, countryDates);
     });
   }
 
-  buildTotalConfirmedCasesGraph(cases, countryDates) {
-    this.chartActiveCases = new Chart('confirmedCases', {
-      type: 'bar',
+  buildTotalConfirmedAndActiveCasesGraph(confirmedCases, activeCases, countryDates) {
+    this.chartConfirmedAndActiveCases = new Chart('confirmedAndActiveCases', {
+      type: 'line',
       data: {
         labels: countryDates,
         datasets: [
           {
             label: 'Total cases',
-            data: cases,
-            backgroundColor: '#ffcc00',
-            borderColor: '#ffcc00',
+            data: confirmedCases,
+            backgroundColor: '#36a2eb',
+            borderColor: '#36a2eb',
             fill: false
-          }
-        ]
-      },
-      options: {
-        legend: {
-          display: true
-        },
-        scales: {
-          xAxes: [{
-            display: true
-          }],
-          yAxes: [{
-            display: true
-          }]
-        }
-      }
-    });
-  }
-
-  buildActiveCasesGraph(cases, countryDates) {
-    this.chartActiveCases = new Chart('activeCases', {
-      type: 'bar',
-      data: {
-        labels: countryDates,
-        datasets: [
+          },
           {
             label: 'Active cases',
-            data: cases,
-            backgroundColor: '#ffcc00',
-            borderColor: '#ffcc00',
+            data: activeCases,
+            backgroundColor: '#ff6384',
+            borderColor: '#ff6384',
             fill: false
           }
         ]
@@ -110,7 +83,7 @@ export class CountryPageComponent implements OnInit {
   }
 
   buildnewDailyCasesGraph(cases, countryDates) {
-    this.chartActiveCases = new Chart('dailyCases', {
+    this.chartDailyCases = new Chart('dailyCases', {
       type: 'bar',
       data: {
         labels: countryDates,
@@ -118,8 +91,8 @@ export class CountryPageComponent implements OnInit {
           {
             label: 'Daily new cases',
             data: cases,
-            backgroundColor: '#ffcc00',
-            borderColor: '#ffcc00',
+            backgroundColor: '#4bc0c0',
+            borderColor: '#4bc0c0',
             fill: false
           }
         ]

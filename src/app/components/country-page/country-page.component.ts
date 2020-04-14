@@ -19,6 +19,14 @@ export class CountryPageComponent implements OnInit {
   ngOnInit() {
     const country = this.route.snapshot.paramMap.get('country');
 
+    this.countryService.getCountryNewApi(country).subscribe(response => {
+      console.log('response', response);
+    });
+
+    // this.countryService.getCountryNewApi2(country).subscribe(response2 => {
+    //   console.log('response2', response2);
+    // });
+
     this.countryService.getCountryAllStatus(country).subscribe((response) => {
       const confirmedCases = response.map(res => res.Confirmed);
       const deathsCases = response.map(res => res.Deaths);

@@ -11,6 +11,7 @@ import { element } from 'protractor';
 })
 export class CountryPageComponent implements OnInit {
 
+  chart: any;
   SummaryGraph = [];
   chartDailyCases = [];
 

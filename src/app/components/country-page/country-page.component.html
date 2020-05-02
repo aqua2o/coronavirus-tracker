@@ -1,7 +1,9 @@
-<div *ngIf="SummaryGraph">
-    <canvas id="SummaryGraph">{{chart}}</canvas>
-</div>
-
-<div *ngIf="chartDailyCases">
-    <canvas id="dailyCases">{{chart}}</canvas>
+<h1>{{country}}</h1>
+<div class="graphs-container">
+    <div *ngIf="SummaryGraph" class="graph-container">
+        <canvas id="SummaryGraph">{{chart}}</canvas>
+    </div>
+    <div *ngIf="chartDailyCases" class="graph-container">
+        <canvas id="dailyCases">{{chart}}</canvas>
+    </div>
 </div>

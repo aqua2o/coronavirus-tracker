@@ -12,8 +12,8 @@ import { element } from 'protractor';
 export class CountryPageComponent implements OnInit {
 
   chart: any;
-  SummaryGraph = [];
-  chartDailyCases = [];
+  SummaryGraph1 = [];
+  chartDailyCases1 = [];
   country = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -21,15 +21,7 @@ export class CountryPageComponent implements OnInit {
   ngOnInit() {
     this.country = this.route.snapshot.paramMap.get('country');
 
-    this.countryService.getCountryNewApi(this.country).subscribe(response => {
-      console.log('response', response);
-    });
-
-    // this.countryService.getCountryNewApi2(country).subscribe(response2 => {
-    //   console.log('response2', response2);
-    // });
-
-    this.countryService.getCountryAllStatus(this.country).subscribe((response) => {
+    this.countryService.getCountryApi1(this.country).subscribe((response) => {
       const confirmedCases = response.map(res => res.Confirmed);
       const deathsCases = response.map(res => res.Deaths);
       const recoveredCases = response.map(res => res.Recovered);
@@ -49,13 +41,25 @@ export class CountryPageComponent implements OnInit {
         dailyNewCases.push(dailyCase >= 0 ? dailyCase : 0);
       }
 
-      this.buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates);
-      this.buildnewDailyCasesGraph(dailyNewCases, countryDates);
+      this.buildSummaryGraph(this.SummaryGraph1, 'SummaryGraph1', confirmedCases, activeCases, recoveredCases, deathsCases, countryDates);
+      this.buildnewDailyCasesGraph(this.chartDailyCases1, 'chartDailyCases1', dailyNewCases, countryDates);
     });
+
+
+    this.countryService.getCountryApi2(this.country).subscribe(response => {
+      console.log('response 2', response);
+    });
+
+    this.countryService.getCountryApi3(this.country).subscribe(response2 => {
+      console.log('response 3', response2);
+    });
+
+
+
   }
 
-  buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {
-    this.SummaryGraph = new Chart('SummaryGraph', {
+  buildSummaryGraph(graph, graphName, confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {
+    graph = new Chart(graphName, {
       type: 'line',
       data: {
         labels: countryDates,
@@ -106,8 +110,8 @@ export class CountryPageComponent implements OnInit {
     });
   }
 
-  buildnewDailyCasesGraph(cases, countryDates) {
-    this.chartDailyCases = new Chart('dailyCases', {
+  buildnewDailyCasesGraph(graph, graphName, cases, countryDates) {
+    graph = new Chart(graphName, {
       type: 'bar',
       data: {
         labels: countryDates,

@@ -2,3 +2,11 @@
     display: flex;
     justify-content: center;
 }
+.table-container {
+    max-width: 1200px;  
+    overflow-x: auto; 
+    margin: auto;
+    mat-table {
+        min-width: 660px;
+    }
+}

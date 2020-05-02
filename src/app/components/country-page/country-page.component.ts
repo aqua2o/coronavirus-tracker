@@ -11,15 +11,17 @@ import { element } from 'protractor';
 })
 export class CountryPageComponent implements OnInit {
 
+  chart: any;
   SummaryGraph = [];
   chartDailyCases = [];
+  country = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
 
   ngOnInit() {
-    const country = this.route.snapshot.paramMap.get('country');
+    this.country = this.route.snapshot.paramMap.get('country');
 
-    this.countryService.getCountryNewApi(country).subscribe(response => {
+    this.countryService.getCountryNewApi(this.country).subscribe(response => {
       console.log('response', response);
     });
 
@@ -27,7 +29,7 @@ export class CountryPageComponent implements OnInit {
     //   console.log('response2', response2);
     // });
 
-    this.countryService.getCountryAllStatus(country).subscribe((response) => {
+    this.countryService.getCountryAllStatus(this.country).subscribe((response) => {
       const confirmedCases = response.map(res => res.Confirmed);
       const deathsCases = response.map(res => res.Deaths);
       const recoveredCases = response.map(res => res.Recovered);

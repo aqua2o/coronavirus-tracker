@@ -12,8 +12,12 @@ import { element } from 'protractor';
 export class CountryPageComponent implements OnInit {
 
   chart: any;
-  SummaryGraph = [];
-  chartDailyCases = [];
+  SummaryGraph1 = [];
+  chartDailyCases1 = [];
+  SummaryGraph2 = [];
+  chartDailyCases2 = [];
+  SummaryGraph3 = [];
+  chartDailyCases3 = [];
   country = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -21,7 +25,8 @@ export class CountryPageComponent implements OnInit {
   ngOnInit() {
     this.country = this.route.snapshot.paramMap.get('country');
 
-    this.countryService.getCountryAllStatus(this.country).subscribe((response) => {
+    this.countryService.getCountryApi1(this.country).subscribe((response) => {
+      console.log('response 1', response);
       const confirmedCases = response.map(res => res.Confirmed);
       const deathsCases = response.map(res => res.Deaths);
       const recoveredCases = response.map(res => res.Recovered);
@@ -41,13 +46,91 @@ export class CountryPageComponent implements OnInit {
         dailyNewCases.push(dailyCase >= 0 ? dailyCase : 0);
       }
 
-      this.buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates);
-      this.buildnewDailyCasesGraph(dailyNewCases, countryDates);
+      this.buildSummaryGraph(this.SummaryGraph1, 'SummaryGraph1', confirmedCases, activeCases, recoveredCases, deathsCases, countryDates);
+      this.buildnewDailyCasesGraph(this.chartDailyCases1, 'chartDailyCases1', dailyNewCases, countryDates);
+    });
+
+
+    this.countryService.getCountryApi2(this.country).subscribe(response => {
+      console.log('response 2', response);
+      response = response.response;
+      const confirmedCases = response.map(res => res.cases.total);
+      const deathsCases = response.map(res => res.deaths.total);
+      const recoveredCases = response.map(res => res.cases.recovered);
+      const activeCases = response.map(res => res.cases.active);
+      const allDates = response.map(res => res.day);
+
+      const countryDates = [];
+      allDates.forEach(res => {
+        const jsdate = new Date(res);
+        countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
+      });
+
+      const dailyNewCases = response.map(res => {
+        if (res.cases.new) {
+          return Number(res.cases.new.substring(1));
+        } else {
+          return 0;
+        }
+      });
+
+      this.buildSummaryGraph(
+        this.SummaryGraph2,
+        'SummaryGraph2',
+        confirmedCases.reverse(),
+        activeCases.reverse(),
+        recoveredCases.reverse(),
+        deathsCases.reverse(),
+        countryDates.reverse()
+      );
+      this.buildnewDailyCasesGraph(
+        this.chartDailyCases2,
+        'chartDailyCases2',
+        dailyNewCases.reverse(),
+        countryDates
+      );
+
+    });
+
+    this.countryService.getCountryApi3(this.country).subscribe(response => {
+      console.log('response 3', response);
+
+      const responseValues = Object.values(response);
+      const confirmedCases = responseValues.map(res => parseFloat(res.total_cases.replace(/,/g, '')));
+      const deathsCases = responseValues.map(res => parseFloat(res.total_deaths.replace(/,/g, '')));
+      const recoveredCases = responseValues.map(res => parseFloat(res.total_recovered.replace(/,/g, '')));
+      const activeCases = responseValues.map(res => parseFloat(res.active_cases.replace(/,/g, '')));
+      const allDates = responseValues.map(res => res.record_date);
+
+      const countryDates = [];
+      allDates.forEach(res => {
+        const jsdate = new Date(res);
+        countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
+      });
+
+      const dailyNewCases = responseValues.map(res => parseFloat(res.new_cases.replace(/,/g, '')));
+
+      this.buildSummaryGraph(
+        this.SummaryGraph3,
+        'SummaryGraph3',
+        confirmedCases,
+        activeCases,
+        recoveredCases,
+        deathsCases,
+        countryDates
+      );
+
+      this.buildnewDailyCasesGraph(
+        this.chartDailyCases3,
+        'chartDailyCases3',
+        dailyNewCases,
+        countryDates
+      );
     });
   }
 
-  buildSummaryGraph(confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {
-    this.SummaryGraph = new Chart('SummaryGraph', {
+  buildSummaryGraph(graph, graphName, confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {
+    graph = new Chart(graphName, {
       type: 'line',
       data: {
         labels: countryDates,
@@ -98,8 +181,8 @@ export class CountryPageComponent implements OnInit {
     });
   }
 
-  buildnewDailyCasesGraph(cases, countryDates) {
-    this.chartDailyCases = new Chart('dailyCases', {
+  buildnewDailyCasesGraph(graph, graphName, cases, countryDates) {
+    graph = new Chart(graphName, {
       type: 'bar',
       data: {
         labels: countryDates,

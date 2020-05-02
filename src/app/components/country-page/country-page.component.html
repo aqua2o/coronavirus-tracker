@@ -1,10 +1,21 @@
 <h1>{{country}}</h1>
-<div class="graphs-container">
+
+<div class="graphs-row">
     <h2>Country Api 1:</h2>
     <div *ngIf="SummaryGraph1" class="graph-container">
         <canvas id="SummaryGraph1">{{chart}}</canvas>
     </div>
     <div *ngIf="chartDailyCases1" class="graph-container">
         <canvas id="chartDailyCases1">{{chart}}</canvas>
+    </div>
+</div>
+
+<div class="graphs-row">
+    <h2>Country Api 2:</h2>
+    <div *ngIf="SummaryGraph2" class="graph-container">
+        <canvas id="SummaryGraph2">{{chart}}</canvas>
+    </div>
+    <div *ngIf="chartDailyCases2" class="graph-container">
+        <canvas id="chartDailyCases2">{{chart}}</canvas>
     </div>
 </div>

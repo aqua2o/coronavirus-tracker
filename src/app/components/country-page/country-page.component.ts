@@ -14,6 +14,8 @@ export class CountryPageComponent implements OnInit {
   chart: any;
   SummaryGraph1 = [];
   chartDailyCases1 = [];
+  SummaryGraph2 = [];
+  chartDailyCases2 = [];
   country = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -22,6 +24,7 @@ export class CountryPageComponent implements OnInit {
     this.country = this.route.snapshot.paramMap.get('country');
 
     this.countryService.getCountryApi1(this.country).subscribe((response) => {
+      console.log('response 1', response);
       const confirmedCases = response.map(res => res.Confirmed);
       const deathsCases = response.map(res => res.Deaths);
       const recoveredCases = response.map(res => res.Recovered);
@@ -48,6 +51,44 @@ export class CountryPageComponent implements OnInit {
 
     this.countryService.getCountryApi2(this.country).subscribe(response => {
       console.log('response 2', response);
+      response = response.response;
+      const confirmedCases = response.map(res => res.cases.total);
+      const deathsCases = response.map(res => res.deaths.total);
+      const recoveredCases = response.map(res => res.cases.recovered);
+      const activeCases = response.map(res => res.cases.active);
+      const allDates = response.map(res => res.day);
+
+      const countryDates = [];
+      allDates.forEach(res => {
+        const jsdate = new Date(res);
+        countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
+      });
+
+      const dailyNewCases = response.map(res => {
+        if (res.cases.new) {
+          return Number(res.cases.new.substring(1));
+        } else {
+          return 0;
+        }
+      });
+      console.log('dailyNewCases', dailyNewCases);
+
+      this.buildSummaryGraph(
+        this.SummaryGraph2.reverse(),
+        'SummaryGraph2',
+        confirmedCases.reverse(),
+        activeCases.reverse(),
+        recoveredCases.reverse(),
+        deathsCases.reverse(),
+        countryDates.reverse()
+      );
+      this.buildnewDailyCasesGraph(
+        this.chartDailyCases2,
+        'chartDailyCases2',
+        dailyNewCases.reverse(),
+        countryDates
+      );
+
     });
 
     this.countryService.getCountryApi3(this.country).subscribe(response2 => {

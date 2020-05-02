@@ -16,6 +16,8 @@ export class CountryPageComponent implements OnInit {
   chartDailyCases1 = [];
   SummaryGraph2 = [];
   chartDailyCases2 = [];
+  SummaryGraph3 = [];
+  chartDailyCases3 = [];
   country = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
@@ -71,10 +73,9 @@ export class CountryPageComponent implements OnInit {
           return 0;
         }
       });
-      console.log('dailyNewCases', dailyNewCases);
 
       this.buildSummaryGraph(
-        this.SummaryGraph2.reverse(),
+        this.SummaryGraph2,
         'SummaryGraph2',
         confirmedCases.reverse(),
         activeCases.reverse(),
@@ -91,12 +92,41 @@ export class CountryPageComponent implements OnInit {
 
     });
 
-    this.countryService.getCountryApi3(this.country).subscribe(response2 => {
-      console.log('response 3', response2);
+    this.countryService.getCountryApi3(this.country).subscribe(response => {
+      console.log('response 3', response);
+
+      const responseValues = Object.values(response);
+      const confirmedCases = responseValues.map(res => parseFloat(res.total_cases.replace(/,/g, '')));
+      const deathsCases = responseValues.map(res => parseFloat(res.total_deaths.replace(/,/g, '')));
+      const recoveredCases = responseValues.map(res => parseFloat(res.total_recovered.replace(/,/g, '')));
+      const activeCases = responseValues.map(res => parseFloat(res.active_cases.replace(/,/g, '')));
+      const allDates = responseValues.map(res => res.record_date);
+
+      const countryDates = [];
+      allDates.forEach(res => {
+        const jsdate = new Date(res);
+        countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
+      });
+
+      const dailyNewCases = responseValues.map(res => parseFloat(res.new_cases.replace(/,/g, '')));
+
+      this.buildSummaryGraph(
+        this.SummaryGraph3,
+        'SummaryGraph3',
+        confirmedCases,
+        activeCases,
+        recoveredCases,
+        deathsCases,
+        countryDates
+      );
+
+      this.buildnewDailyCasesGraph(
+        this.chartDailyCases3,
+        'chartDailyCases3',
+        dailyNewCases,
+        countryDates
+      );
     });
-
-
-
   }
 
   buildSummaryGraph(graph, graphName, confirmedCases, activeCases, recoveredCases, deathsCases, countryDates) {

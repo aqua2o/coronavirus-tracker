@@ -95,12 +95,42 @@ export class CountryPageComponent implements OnInit {
     this.countryService.getCountryApi3(this.country).subscribe(response => {
       console.log('response 3', response);
 
-      const responseValues: any = Object.values(response);
-      const confirmedCases = responseValues.map(res => parseFloat(res.total_cases.replace(/,/g, '')));
-      const deathsCases = responseValues.map(res => parseFloat(res.total_deaths.replace(/,/g, '')));
-      const recoveredCases = responseValues.map(res => parseFloat(res.total_recovered.replace(/,/g, '')));
-      const activeCases = responseValues.map(res => parseFloat(res.active_cases.replace(/,/g, '')));
-      const allDates = responseValues.map(res => res.record_date);
+      response = response.stat_by_country;
+      const confirmedCases = response.map(res => {
+        if (res.total_cases) {
+          return parseFloat(res.total_cases.replace(/,/g, ''));
+        } else {
+          return 0;
+        }
+      });
+      const deathsCases = response.map(res => {
+        if (res.total_deaths) {
+          return parseFloat(res.total_deaths.replace(/,/g, ''));
+        } else {
+          return 0;
+        }
+      });
+      const recoveredCases = response.map(res => {
+        if (res.total_recovered) {
+          return parseFloat(res.total_recovered.replace(/,/g, ''));
+        } else {
+          return 0;
+        }
+      });
+      const activeCases = response.map(res => {
+        if (res.active_cases) {
+          return parseFloat(res.active_cases.replace(/,/g, ''));
+        } else {
+          return 0;
+        }
+      });
+      const allDates = response.map(res => {
+        if (res.record_date) {
+          return res.record_date;
+        } else {
+          return 0;
+        }
+      });
 
       const countryDates = [];
       allDates.forEach(res => {
@@ -108,7 +138,13 @@ export class CountryPageComponent implements OnInit {
         countryDates.push(jsdate.toLocaleDateString('en', {month: 'short', day: 'numeric'}));
       });
 
-      const dailyNewCases = responseValues.map(res => parseFloat(res.new_cases.replace(/,/g, '')));
+      const dailyNewCases = response.map(res => {
+        if (res.new_cases) {
+          return parseFloat(res.new_cases.replace(/,/g, ''));
+        } else {
+          return 0;
+        }
+      });
 
       this.buildSummaryGraph(
         this.SummaryGraph3,
@@ -126,6 +162,10 @@ export class CountryPageComponent implements OnInit {
         dailyNewCases,
         countryDates
       );
+    });
+
+    this.countryService.getCountryApi4(this.country).subscribe(response => {
+      console.log('response 4', response);
     });
   }
 

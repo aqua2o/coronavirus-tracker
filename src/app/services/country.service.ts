@@ -47,6 +47,15 @@ export class CountryService {
       );
     }
 
+    getCountryApi4(countrySlug): Observable<any> {
+      console.log('country slug', countrySlug);
+      const serviceUrl = `https://thevirustracker.com/free-api?countryTimeline=${countrySlug}`;
+      return this.httpClient.get<any>(serviceUrl).pipe(
+          retry(0),
+          catchError(this.handleError)
+      );
+    }
+
     handleError(error) {
       let errorMessage = '';
       if (error.error instanceof ErrorEvent) {

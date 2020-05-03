@@ -19,11 +19,17 @@ export class CountryPageComponent implements OnInit {
   SummaryGraph3 = [];
   chartDailyCases3 = [];
   country = '';
+  countryCode = '';
 
   constructor(private route: ActivatedRoute, private countryService: CountryService) { }
 
   ngOnInit() {
     this.country = this.route.snapshot.paramMap.get('country');
+
+    this.route.queryParams.subscribe(params => {
+      this.countryCode = params.countryCode;
+  });
+
 
     this.countryService.getCountryApi1(this.country).subscribe((response) => {
       console.log('response 1', response);
@@ -164,7 +170,7 @@ export class CountryPageComponent implements OnInit {
       );
     });
 
-    this.countryService.getCountryApi4(this.country).subscribe(response => {
+    this.countryService.getCountryApi4(this.countryCode).subscribe(response => {
       console.log('response 4', response);
     });
   }

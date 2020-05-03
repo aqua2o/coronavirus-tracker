@@ -30,6 +30,7 @@ export class CountriesTableComponent implements OnInit {
 
   ngOnInit() {
     this.countriesService.getCountries().subscribe((response) => {
+        console.log('response country', response);
         this.dataSource = new MatTableDataSource(response.Countries);
         this.dataSource.paginator = this.paginator;
         this.sort.sort(({ id: 'TotalConfirmed', start: 'desc'}) as MatSortable);

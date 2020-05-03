@@ -95,7 +95,7 @@ export class CountryPageComponent implements OnInit {
     this.countryService.getCountryApi3(this.country).subscribe(response => {
       console.log('response 3', response);
 
-      const responseValues = Object.values(response);
+      const responseValues: any = Object.values(response);
       const confirmedCases = responseValues.map(res => parseFloat(res.total_cases.replace(/,/g, '')));
       const deathsCases = responseValues.map(res => parseFloat(res.total_deaths.replace(/,/g, '')));
       const recoveredCases = responseValues.map(res => parseFloat(res.total_recovered.replace(/,/g, '')));
